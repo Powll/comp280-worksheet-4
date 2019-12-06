@@ -88,5 +88,7 @@ public class Turret : MonoBehaviour
     {
         GameObject p = Instantiate(projectilePrefab, barrel.GetChild(0).transform.position, Quaternion.identity, projectileParent);
         p.GetComponent<Projectile>().Init(barrel.up, 1, 1, projectileLifespan);
+        barrel.GetComponentInChildren<AudioSource>().Play();
+        barrel.GetComponentInChildren<ParticleSystem>().Play();
     }
 }
