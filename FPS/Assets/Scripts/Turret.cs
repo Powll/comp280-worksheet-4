@@ -40,6 +40,7 @@ public class Turret : MonoBehaviour, IDamageable
     public GameObject projectilePrefab;
     public float projectileLifespan = 1f;
     public int projectileDamage = 1;
+    public float projectileSpeed = 1f;
 
     [Header("UI settings")]
     public Slider healthSlider;
@@ -107,6 +108,12 @@ public class Turret : MonoBehaviour, IDamageable
         else if(Input.GetMouseButtonUp(0))
         {
             firing = false;
+        }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            if(!reloading)
+                StartCoroutine("ReloadSequence");
         }
 
         if(healthSlider)
@@ -210,7 +217,7 @@ public class Turret : MonoBehaviour, IDamageable
     {
         clipAmmo--;
         GameObject p = Instantiate(projectilePrefab, barrel.GetChild(0).transform.position, Quaternion.identity, projectileParent);
-        p.GetComponent<Projectile>().Init(barrel.up, projectileDamage, 1, projectileLifespan, transform);
+        p.GetComponent<Projectile>().Init(barrel.up, projectileDamage, projectileSpeed, projectileLifespan, transform);
         barrel.GetComponentInChildren<AudioSource>().Play();
         barrel.GetComponentInChildren<ParticleSystem>().Play();
     }

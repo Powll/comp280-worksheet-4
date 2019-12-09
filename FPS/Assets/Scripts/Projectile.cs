@@ -9,6 +9,8 @@ public class Projectile : MonoBehaviour
     float speed;
     Transform parent;
 
+    public ParticleSystem hitParticles;
+
     private void Update() 
     {
         transform.LookAt(transform.position + dir);
@@ -36,6 +38,10 @@ public class Projectile : MonoBehaviour
             if(!transforms.Contains(parent))
             {
                 other.gameObject.GetComponent<IDamageable>().TakeDamage(damage);
+                if(hitParticles)
+                {
+                    GameObject o = Instantiate(hitParticles.gameObject, other.GetContact(0).point, Quaternion.identity);
+                }
                 DestroyProjectile();
             }
         }    
