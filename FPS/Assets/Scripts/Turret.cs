@@ -38,6 +38,7 @@ public class Turret : MonoBehaviour, IDamageable
     [Header("Projectile settings")]
     public Transform projectileParent;
     public GameObject projectilePrefab;
+    public GameObject shellPrefab;
     public float projectileLifespan = 1f;
     public int projectileDamage = 1;
     public float projectileSpeed = 1f;
@@ -197,6 +198,9 @@ public class Turret : MonoBehaviour, IDamageable
             barrel.localPosition = Vector3.MoveTowards(barrel.localPosition, barrel.localPosition - new Vector3(0, barrelRecoil, 0), barrelRecoilPower);
             yield return new WaitForEndOfFrame();
         }
+
+        GameObject o = Instantiate(shellPrefab, barrel.parent.GetChild(1).position, Quaternion.LookRotation(barrel.parent.GetChild(1).up, barrel.parent.GetChild(1).forward));
+        o.GetComponent<Rigidbody>().AddForce(o.transform.up * 8, ForceMode.Impulse);
 
         // Then move it back after firing
         while(barrel.localPosition.y < startPos)

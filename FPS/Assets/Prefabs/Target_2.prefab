@@ -49,7 +49,7 @@ MonoBehaviour:
   _damageTaken: 0
   _damageThreshold: 35
   _healDelay: 1
-  speed: 0.5
+  speed: 0.35
 --- !u!136 &2022781757448040824
 CapsuleCollider:
   m_ObjectHideFlags: 0

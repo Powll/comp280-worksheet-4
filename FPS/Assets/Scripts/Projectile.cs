@@ -38,10 +38,6 @@ public class Projectile : MonoBehaviour
             if(!transforms.Contains(parent))
             {
                 other.gameObject.GetComponent<IDamageable>().TakeDamage(damage);
-                if(hitParticles)
-                {
-                    GameObject o = Instantiate(hitParticles.gameObject, other.GetContact(0).point, Quaternion.identity);
-                }
                 DestroyProjectile();
             }
         }    
@@ -49,6 +45,12 @@ public class Projectile : MonoBehaviour
 
     void DestroyProjectile()
     {
+        if(hitParticles)
+        {
+            GameObject o = Instantiate(hitParticles.gameObject, transform.position, transform.rotation);
+            o.transform.localScale = Vector3.one * ((float)damage / 30);
+        }
+
         Destroy(gameObject);
     }
 }
