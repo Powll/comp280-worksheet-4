@@ -164,7 +164,7 @@ public class Turret : MonoBehaviour, IDamageable
         reloading = true;
 
         if(reloadTimerSlider)
-            for(int i = 0; i < cooldownSpeed; i++)
+            for(int i = 1; i <= cooldownSpeed; i++)
             {
                 reloadTimerSlider.value = (float)i / (float)cooldownSpeed;   
                 yield return new WaitForSeconds((float)reloadTime / (float) cooldownSpeed);
