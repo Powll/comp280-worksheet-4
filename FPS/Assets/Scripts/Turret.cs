@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class Turret : MonoBehaviour, IDamageable
 {
+    [Header("Control settings")]
+    public bool playerControlled = true;
+    public Transform target;
     [Header("Turret components")]
     // Used for rotating along the X axis
     public Transform tPitch;
@@ -102,35 +105,43 @@ public class Turret : MonoBehaviour, IDamageable
     }
 
     private void Update() {
-        if(Input.GetMouseButtonDown(0))
+        if(playerControlled)
         {
-            firing = true;
+            if(Input.GetMouseButtonDown(0))
+            {
+                firing = true;
+            }
+            else if(Input.GetMouseButtonUp(0))
+            {
+                firing = false;
+            }
+
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                if(!reloading)
+                    StartCoroutine("ReloadSequence");
+            }
+
+            if(healthSlider)
+            {
+                healthSlider.value = 1.0f - damagePercent;
+            }
+
+            if(ammoSlider)
+            {
+                ammoSlider.value = ammoPercent;
+            }
+
+            Vector3 rot = new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0);
+
+            tPitch.localEulerAngles += new Vector3(-rot.x, 0, 0);
+            tYaw.localEulerAngles += new Vector3(0, rot.y, 0);
         }
-        else if(Input.GetMouseButtonUp(0))
+        else
         {
-            firing = false;
+            if(target)
+                AimTowards(target);
         }
-
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            if(!reloading)
-                StartCoroutine("ReloadSequence");
-        }
-
-        if(healthSlider)
-        {
-            healthSlider.value = 1.0f - damagePercent;
-        }
-
-        if(ammoSlider)
-        {
-            ammoSlider.value = ammoPercent;
-        }
-
-        Vector3 rot = new Vector3(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"), 0);
-
-        tPitch.localEulerAngles += new Vector3(-rot.x, 0, 0);
-        tYaw.localEulerAngles += new Vector3(0, rot.y, 0);
     }
 
     IEnumerator FireSequence()
@@ -224,5 +235,27 @@ public class Turret : MonoBehaviour, IDamageable
         p.GetComponent<Projectile>().Init(barrel.up, projectileDamage, projectileSpeed, projectileLifespan, transform);
         barrel.GetComponentInChildren<AudioSource>().Play();
         barrel.GetComponentInChildren<ParticleSystem>().Play();
+    }
+
+    // Rotates turret to face target and returns the angle difference between the target and the turret
+    public float AimTowards(Transform target)
+    {
+        float angle = 0f;
+
+        Vector3 dir = target.position - tYaw.position;
+
+        Quaternion yawRot = Quaternion.LookRotation(dir);
+        Quaternion pitchRot = Quaternion.LookRotation(dir);
+
+        yawRot.x = 0;
+        yawRot.z = 0;
+
+        pitchRot.y = yawRot.y;
+        pitchRot.z = yawRot.z;
+
+        tYaw.rotation = yawRot;
+        tPitch.rotation = pitchRot;
+
+        return angle;
     }
 }

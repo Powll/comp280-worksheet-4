@@ -11,8 +11,14 @@ public class GUIManager : MonoBehaviour
     public GameObject ui_settings_audio;
     public GameObject ui_settings_gameplay;
 
+    private void Start() 
+    {
+        Cursor.lockState = gui.activeInHierarchy ? CursorLockMode.Locked : CursorLockMode.None;
+    }
+
     public void ToggleGUI()
     {
+        Cursor.lockState = gui.activeInHierarchy ? CursorLockMode.Locked : CursorLockMode.None;
         ToggleSingleGameObject(gui);
     }
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1126257120292573046}
   - component: {fileID: 1126257120292573040}
   m_Layer: 0
-  m_Name: Airship
+  m_Name: Target_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1126257120292573044}
-  m_LocalRotation: {x: -0, y: 0.98925716, z: -0, w: 0.14618592}
+  m_LocalRotation: {x: 0, y: 0.9892571, z: 0, w: 0.14618671}
   m_LocalPosition: {x: -5.0705204, y: 43.1, z: 228.08742}
   m_LocalScale: {x: 9.7456, y: 9.7456, z: 9.7456}
   m_Children:
@@ -47,9 +47,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageTaken: 0
-  _damageThreshold: 100
+  _damageThreshold: 200
   _healDelay: 1
-  speed: 0.2
+  speed: 0.1
+  iconPrefab: {fileID: 1167563028682741326, guid: 2972b21d1a4e4b84697af7c31a9d3741,
+    type: 3}
+  iconColor: {r: 1, g: 0, b: 0, a: 0.39215687}
 --- !u!136 &1126257120292573046
 CapsuleCollider:
   m_ObjectHideFlags: 0
