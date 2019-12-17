@@ -70,7 +70,7 @@ public class Turret : MonoBehaviour, IDamageable
     IEnumerator Heal()
     {
         if(healCooldownSlider)
-            for(int i = 0; i < cooldownSpeed; i++)
+            for(int i = 1; i <= cooldownSpeed; i++)
             {
                 healCooldownSlider.value = (float)i / (float)cooldownSpeed;   
                 yield return new WaitForSeconds((float)healDelay / (float) cooldownSpeed);
@@ -140,7 +140,12 @@ public class Turret : MonoBehaviour, IDamageable
         else
         {
             if(target)
-                AimTowards(target);
+                {
+                    firing = true;
+                    AimTowards(target);
+                }
+            else
+                firing = false;
         }
     }
 
@@ -244,17 +249,17 @@ public class Turret : MonoBehaviour, IDamageable
 
         Vector3 dir = target.position - tYaw.position;
 
-        Quaternion yawRot = Quaternion.LookRotation(dir);
-        Quaternion pitchRot = Quaternion.LookRotation(dir);
+        Vector3 yawRot = Quaternion.LookRotation(dir).eulerAngles;
+        Vector3 pitchRot = Quaternion.LookRotation(dir).eulerAngles;
 
-        yawRot.x = 0;
+        yawRot.x = tYaw.localEulerAngles.x;
         yawRot.z = 0;
 
-        pitchRot.y = yawRot.y;
-        pitchRot.z = yawRot.z;
+        pitchRot.y = 0;
+        pitchRot.z = 0;
 
-        tYaw.rotation = yawRot;
-        tPitch.rotation = pitchRot;
+        tYaw.localEulerAngles = yawRot;
+        tPitch.localEulerAngles = pitchRot;
 
         return angle;
     }
